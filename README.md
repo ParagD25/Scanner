@@ -9,7 +9,8 @@ You'll need [Git](https://git-scm.com) and [Python](https://www.python.org/) ins
 
 
 ## Libraries Used 📁:
-
+- Open-CV
+- Numpy
 
 ## How To Use 🔧:
 
@@ -34,7 +35,7 @@ $ source venv/bin/activate
 # Install all the libraries/frameworks mentioned above
 
 # Run Python file
-$ "python pen.py"
+$ "python scanner.py"
 
 ```
 
