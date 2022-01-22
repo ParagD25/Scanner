@@ -17,6 +17,9 @@ def basic(frame):
     return frameErode
 
 def getContours(img):
+
+    largest=np.array([])
+    areaMax=0
     contours,hierarchy=cv2.findContours(img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
     for cnt in contours:
         area=cv2.contourArea(cnt)
@@ -26,9 +29,12 @@ def getContours(img):
 
             peri=cv2.arcLength(cnt,True)
             approx=cv2.approxPolyDP(cnt,0.02*peri,True)
-            objcor=len(approx)
+            
+            if area>areaMax and len(approx)==4:
+                largest=approx
+                areaMax=area
 
-            x,y,w,h=cv2.boundingRect(approx)
+    return largest
 
 
 while True:
@@ -36,8 +42,9 @@ while True:
     frame2=frame.copy()
 
     myFrame=basic(frame)
+    getContours(myFrame)
 
-    cv2.imshow('Result',myFrame)
+    cv2.imshow('Result',frame2)
 
     if cv2.waitKey(1) & 0xFF==ord('q'):
         break
