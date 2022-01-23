@@ -56,6 +56,8 @@ def warpCorrected(points):
     return newPoints
 
 def warp(frame,scanArea):
+
+    scanArea=warpCorrected(scanArea)
     
     point1=np.float32(scanArea)
     point2=np.float32([[0,0],[capture.get(cv2.CAP_PROP_FRAME_WIDTH),0],[0,capture.get(cv2.CAP_PROP_FRAME_HEIGHT)],[capture.get(cv2.CAP_PROP_FRAME_WIDTH),capture.get(cv2.CAP_PROP_FRAME_HEIGHT)]])
@@ -73,9 +75,14 @@ while True:
 
     myFrame=basic(frame)
     scanArea=getContours(myFrame)
-    # imgOutput=warp(frame,scanArea)
 
-    cv2.imshow('Result',scanArea)
+    if scanArea.size!=0:
+        imgOutput=warp(frame,scanArea)
+        cv2.imshow('Result',imgOutput)
+
+    else:
+        cv2.imshow('Result',frame)
+
 
     if cv2.waitKey(1) & 0xFF==ord('q'):
         break
