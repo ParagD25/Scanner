@@ -1,16 +1,16 @@
-# Scanner
+# PDF Scanner
 
 
 ## Prerequisites 📋
 
-You'll need [Git](https://git-scm.com) and [Python](https://www.python.org/) installed on your computer.
+You'll just need [Git](https://git-scm.com) and [Python](https://www.python.org/) installed on your computer.
 
 [![](https://camo.githubusercontent.com/2fb0723ef80f8d87a51218680e209c66f213edf8/68747470733a2f2f666f7274686562616467652e636f6d2f696d616765732f6261646765732f6d6164652d776974682d707974686f6e2e737667)](https://python.org)
 
 
 ## Libraries Used 📁:
-- Open-CV
-- Numpy
+- <b><i> Open-CV </i></b>
+- <b><i> Numpy </i></b>
 
 ## How To Use 🔧:
 
@@ -39,7 +39,7 @@ $ "python scanner.py"
 
 ```
 
-## Screenshots 📷:
+## Working Example 📷:
 
 
 ## Contributing ©️:
