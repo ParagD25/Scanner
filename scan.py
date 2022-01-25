@@ -9,6 +9,8 @@ imgH=670
 capture.set(3,640)
 capture.set(4,480)
 
+count=0
+
 def basic(frame):
 
     frameG=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
@@ -31,7 +33,7 @@ def getContours(img):
         area=cv2.contourArea(cnt)
 
         if area>2500:
-            cv2.drawContours(frame2,cnt,-1,(255,0,0),3)
+            cv2.drawContours(frame2,cnt,-1,(35,255,0),2)
 
             peri=cv2.arcLength(cnt,True)
             approx=cv2.approxPolyDP(cnt,0.02*peri,True)
@@ -70,13 +72,24 @@ def warp(frame,scanArea):
 
     imgScan=cv2.warpPerspective(frame,matrix,(imgW,imgH))
 
-    return imgScan
+    imgCropped=imgScan[15:imgScan.shape[0]-25,15:imgScan.shape[1]-25]
+    imgCropped=cv2.resize(imgCropped,(imgW,imgH))
 
+    return imgCropped
+
+def ThresholdedImg(img):
+    imgGray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    imgAThres=cv2.adaptiveThreshold(imgGray,255,1,1,7,2)
+    imgAThres=cv2.bitwise_not(imgAThres)
+    imgAThres=cv2.medianBlur(imgAThres,3)
+
+    return imgAThres
 
 while True:
     ret,frame=capture.read()
     frame2=frame.copy()
 
+    # framThres=ThresholdedImg(frame)
     myFrame=basic(frame)
     scanArea=getContours(myFrame)
 
@@ -84,14 +97,23 @@ while True:
         imgOutput=warp(frame,scanArea)
         
         cv2.imshow('Scanned Paper',imgOutput)
+        # cv2.imshow('Scanned Paper 2',framThres)
         cv2.imshow('Scanned Paper Outline',frame2)
 
     else:
         cv2.imshow('Scanned Paper',frame)
+        # cv2.imshow('Scanned Paper 2',framThres)
         cv2.imshow('Scanned Paper Outline',frame)
 
+    if cv2.waitKey(1) & 0xFF==ord('p'):
 
-    if cv2.waitKey(1) & 0xFF==ord('q'):
+        cv2.imwrite("Images/ScannedImage"+str(count)+".jpg",imgOutput)
+        cv2.putText(imgOutput,'Image Scanned',(25,25),cv2.FONT_HERSHEY_COMPLEX,3,(35,255,0))
+        cv2.imshow('ResultScanned',imgOutput)
+        cv2.waitKey(250)
+        count+=1
+
+    elif cv2.waitKey(1) & 0xFF==ord('q'):
         break
 
 capture.release()
