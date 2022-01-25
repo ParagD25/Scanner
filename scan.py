@@ -3,13 +3,13 @@ import numpy as np
 
 capture=cv2.VideoCapture(0)
 
-imgW=550
-imgH=670
+imgW=480
+imgH=640
 
 capture.set(3,640)
 capture.set(4,480)
 
-count=0
+count=1
 
 def basic(frame):
 
@@ -95,26 +95,28 @@ while True:
 
     if scanArea.size!=0:
         imgOutput=warp(frame,scanArea)
-        
-        cv2.imshow('Scanned Paper',imgOutput)
+
+        cv2.imshow('Scanning Paper',imgOutput)
         # cv2.imshow('Scanned Paper 2',framThres)
-        cv2.imshow('Scanned Paper Outline',frame2)
+        cv2.imshow('Scanning Paper Outline',frame2)
 
     else:
-        cv2.imshow('Scanned Paper',frame)
-        # cv2.imshow('Scanned Paper 2',framThres)
-        cv2.imshow('Scanned Paper Outline',frame)
 
-    if cv2.waitKey(1) & 0xFF==ord('p'):
+        cv2.imshow('Scanning Paper',frame)
+        # cv2.imshow('Scanned Paper 2',framThres)
+        cv2.imshow('Scanning Paper Outline',frame)
+
+    if cv2.waitKey(5) & 0xFF==ord('q'):
+        break
+
+    if cv2.waitKey(50) & 0xFF==ord('p'):
 
         cv2.imwrite("Images/ScannedImage"+str(count)+".jpg",imgOutput)
-        cv2.putText(imgOutput,'Image Scanned',(25,25),cv2.FONT_HERSHEY_COMPLEX,3,(35,255,0))
-        cv2.imshow('ResultScanned',imgOutput)
-        cv2.waitKey(250)
+        cv2.putText(imgOutput,'Scanned Image',(50,75),cv2.FONT_HERSHEY_PLAIN,3,(255,0,0),4)
+        cv2.imshow('Scanned Image',imgOutput)
+        cv2.waitKey(200)
         count+=1
 
-    elif cv2.waitKey(1) & 0xFF==ord('q'):
-        break
 
 capture.release()
 cv2.destroyAllWindows()
