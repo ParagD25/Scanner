@@ -1,13 +1,15 @@
 import cv2
 import numpy as np
+from pdfconverter import makePDF
 
 capture=cv2.VideoCapture(0)
 
 imgW=480
 imgH=640
 
-capture.set(3,640)
-capture.set(4,480)
+capture.set(3,640) # Width
+capture.set(4,480) # Height
+capture.set(10,80) # Brightness
 
 count=1
 
@@ -72,7 +74,7 @@ def warp(frame,scanArea):
 
     imgScan=cv2.warpPerspective(frame,matrix,(imgW,imgH))
 
-    imgCropped=imgScan[15:imgScan.shape[0]-25,15:imgScan.shape[1]-25]
+    imgCropped=imgScan[10:imgScan.shape[0]-20,10:imgScan.shape[1]-20]
     imgCropped=cv2.resize(imgCropped,(imgW,imgH))
 
     return imgCropped
@@ -86,6 +88,7 @@ def ThresholdedImg(img):
     return imgAThres
 
 while True:
+
     ret,frame=capture.read()
     frame2=frame.copy()
 
@@ -96,27 +99,27 @@ while True:
     if scanArea.size!=0:
         imgOutput=warp(frame,scanArea)
 
-        cv2.imshow('Scanning Paper',imgOutput)
+        cv2.imshow('Scanning Paper (Press \'p\' to Scan or Press \'q\' to Exit)',imgOutput)
         # cv2.imshow('Scanned Paper 2',framThres)
-        cv2.imshow('Scanning Paper Outline',frame2)
+        cv2.imshow('Document Outline',frame2)
 
     else:
 
-        cv2.imshow('Scanning Paper',frame)
+        cv2.imshow('Scanning Paper (Press \'p\' to Scan or Press \'q\' to Exit)',frame)
         # cv2.imshow('Scanned Paper 2',framThres)
-        cv2.imshow('Scanning Paper Outline',frame)
+        cv2.imshow('Document Outline',frame)
 
-    if cv2.waitKey(5) & 0xFF==ord('q'):
+    if cv2.waitKey(1) & 0xFF==ord('q'):
+        makePDF()
         break
 
     if cv2.waitKey(50) & 0xFF==ord('p'):
 
         cv2.imwrite("Images/ScannedImage"+str(count)+".jpg",imgOutput)
-        cv2.putText(imgOutput,'Scanned Image',(50,75),cv2.FONT_HERSHEY_PLAIN,3,(255,0,0),4)
+        cv2.putText(imgOutput,'Scanned Image',(50,75),cv2.FONT_HERSHEY_PLAIN,2,(255,0,0),4)
         cv2.imshow('Scanned Image',imgOutput)
         cv2.waitKey(200)
         count+=1
-
 
 capture.release()
 cv2.destroyAllWindows()
