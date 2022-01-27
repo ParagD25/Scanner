@@ -1,5 +1,13 @@
 # PDF Scanner
+An application where one can scan an object and save in it '.jpg' and '.pdf' format.
 
+
+## Logic 🧠
+- When we place an object under the webcam, edges are been detected using canny edge detection and further we can find the largest contours present in the image.
+
+- After finding contours we use warp perspective to show case the scanned area. 
+
+- Used img2pdf library, to convert the images into pdf. 
 
 ## Prerequisites 📋
 
@@ -11,6 +19,7 @@ You'll just need [Git](https://git-scm.com) and [Python](https://www.python.org/
 ## Libraries Used 📁:
 - <b><i> Open-CV </i></b>
 - <b><i> Numpy </i></b>
+- <b><i> img2pdf </i></b>
 
 ## How To Use 🔧:
 
@@ -40,7 +49,11 @@ $ "python scanner.py"
 ```
 
 ## Working Example 📷:
+[Scanned Images](https://github.com/ParagD25/Scanner/tree/master/Images)
 
+[Scanned PDF](https://github.com/ParagD25/Scanner/tree/master/PDF)
+
+Working of PDF Scanner - [Watch Demo](https://youtu.be/yfZKE19jc3w)
 
 ## Contributing ©️:
 
